@@ -1,6 +1,7 @@
 package com.tank.springboot_mall.controller;
 
 import com.tank.springboot_mall.constant.ProductCategory;
+import com.tank.springboot_mall.dto.ProductQueryParams;
 import com.tank.springboot_mall.dto.ProductRequest;
 import com.tank.springboot_mall.model.Product;
 import com.tank.springboot_mall.service.ProductService;
@@ -23,7 +24,11 @@ public class ProductController {
             @RequestParam(required = false) ProductCategory category,        //  required = false 請求參數不是必選
             @RequestParam(required = false) String search
     ) {
-        List<Product> productList = productService.getProducts(category, search);
+        ProductQueryParams productQueryParams = new ProductQueryParams();
+        productQueryParams.setCategory(category);
+        productQueryParams.setSearch(search);
+
+        List<Product> productList = productService.getProducts(productQueryParams);
 
         return ResponseEntity.status(HttpStatus.OK).body(productList);
     }
