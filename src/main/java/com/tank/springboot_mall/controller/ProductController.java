@@ -1,9 +1,9 @@
 package com.tank.springboot_mall.controller;
 
+import com.tank.springboot_mall.constant.ProductCategory;
 import com.tank.springboot_mall.dto.ProductRequest;
 import com.tank.springboot_mall.model.Product;
 import com.tank.springboot_mall.service.ProductService;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,8 +19,11 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping("/products")
-    public ResponseEntity<List<Product>> getProducts() {
-        List<Product> productList = productService.getProducts();
+    public ResponseEntity<List<Product>> getProducts(
+            @RequestParam(required = false) ProductCategory category,        //  required = false 請求參數不是必選
+            @RequestParam(required = false) String search
+    ) {
+        List<Product> productList = productService.getProducts(category, search);
 
         return ResponseEntity.status(HttpStatus.OK).body(productList);
     }
